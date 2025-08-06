@@ -3,12 +3,19 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-import { PrismaClient } from '@prisma/client';
+import {PrismaClient } from '@prisma/client';
 
+// pages: {
+//     signIn: '/auth/signin',
+//     signOut: '/auth/signout',
+//     error: '/auth/error', // Error code passed in query string as ?error=
+//     verifyRequest: '/auth/verify-request', // (used for check email message)
+//     newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+//   }
 
 const client = new PrismaClient();
 
- const handler = NextAuth({
+ export const handler = NextAuth({
     providers: [
   CredentialsProvider({
     name: "email",
@@ -18,25 +25,33 @@ const client = new PrismaClient();
       password: { label: "Password", type: "password" }
     },
     async authorize(credentials, req) {
-      const email = req.body?.email;
-      const password= req.body?.password;
 
-      const  users = await client.user.findFirst({
-    where: {
-     username: email,
-     password:password
+    const user = await client.user.findFirst({
+      where: {
+        email: credentials?.email,
+        password: credentials?.password
+      }
+    });
+
+    if (user) {
+      return {
+        id: user.id.toString(),
+        name: user.name,
+        email: user.email,
+      };
+    } else {
+      const newuser = await client.user.create({
+        data: {
+          email: credentials?.email ?? "",
+          password: credentials?.password,
+        }
+      });
+      return {
+        id: newuser.id.toString(),
+        name: newuser.name,
+        email: newuser.email,
+      };
     }
-      })
-
-      if(users){
-         return {
-        name: "lav kumar",
-        id: "19",
-        username: "lavkushwaha062"      
-      }
-      }
-      // If authentication fails, return null
-      return null;
     }
   }),
   GoogleProvider({
@@ -49,13 +64,36 @@ const client = new PrismaClient();
           response_type: "code"
         }
       }
-  })
-
+  }),
 ],
+
+ callbacks: {
+    async signIn({ account, profile }) {
+      if (account?.provider === "google") {
+        
+        const existingUser = await client.user.findUnique({
+          where: {
+            email: profile?.email 
+          }
+        })
+        if (!existingUser) {
+          await client.user.create({
+            data: {
+              name: profile?.name,
+              email: profile?.email ?? "",
+              password: null
+            }
+          });
+        }
+      }
+      return true;
+    },
+  },
  secret: process.env.NEXTAUTH_SECRET
  })
 
 
 export const GET = handler;
 export const POST = handler;
+
 

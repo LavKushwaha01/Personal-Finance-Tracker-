@@ -1,10 +1,23 @@
 import Image from "next/image";
 import myImage from "@/images/6196251.jpg"
 
-export default function Home() {
+import { getServerSession } from "next-auth";
+
+import { handler } from "@/app/api/auth/[...nextauth]/route";
+
+import { Session } from "next-auth";
+import { redirect } from "next/navigation";
+
+export  default async function Home() {
+    const session: Session | null = await getServerSession(handler);
+    
+     if (!session) {
+    redirect("/api/auth/signin");
+  }
+
   return (
     <div >
-      bu
+       <h1>Welcome</h1>
       <div className="flex">
       <div className=" m-20 w-2/6 rounded-3xl ">
        <Image
