@@ -42,9 +42,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-        <div className="h-15 flex">
+        <div className="h-16 flex  bg-blue-200 dark:bg-neutral-900 ">
          <Image src={logo}   alt="Picture of the author"  width={120}  height={120}/>
-         <div className="mt-4 ml-50 pl-25">
+         <div className="mt-4 ml-50 pl-25 font-bold">
         <Link href="/mySaving" className=" hover:text-blue-500">My Savings</Link>
         <Link href="/myBudget" className="pl-25 hover:text-blue-500">My Budget</Link>
         <Link href="/savingGoal" className="pl-25 hover:text-blue-500">Saving Goal</Link>
