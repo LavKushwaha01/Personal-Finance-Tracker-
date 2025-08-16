@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Image from "next/image";
+import Link from 'next/link'
+
+import { ThemeProvider } from "@/React/theme";
+import { ModeToggle } from "@/React/modeToggle";
+
+import  logo  from "../images/logo.png"
+
+import { Button } from "@/components/ui/button"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,12 +32,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased` }
       >
-        <h1>hello</h1>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+        <div className="h-15 flex">
+         <Image src={logo}   alt="Picture of the author"  width={120}  height={120}/>
+         <div className="mt-4 ml-50 pl-25">
+        <Link href="/mySaving" className=" hover:text-blue-500">My Savings</Link>
+        <Link href="/myBudget" className="pl-25 hover:text-blue-500">My Budget</Link>
+        <Link href="/savingGoal" className="pl-25 hover:text-blue-500">Saving Goal</Link>
+        <Link href="/transictions" className="pl-25 hover:text-blue-500 mr-60">Transictions</Link>
+
+          <ModeToggle></ModeToggle>
+      
+        </div>
+          <Button className="absolute right-0 mr-10 mt-4 hover:bg-blue-500">Profile</Button>
+        </div>
+         
         {children}
+        </ThemeProvider>
+    
       </body>
     </html>
   );
