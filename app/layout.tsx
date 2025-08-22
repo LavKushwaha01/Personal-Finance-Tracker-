@@ -11,6 +11,8 @@ import  logo  from "../images/logo.png"
 
 import { Button } from "@/components/ui/button"
 
+import Footer  from "@/React/Footer"
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -45,8 +47,8 @@ export default function RootLayout({
         <div className="h-16 flex  bg-blue-200 dark:bg-neutral-900 ">
          <Image src={logo}   alt="Picture of the author"  width={120}  height={120}/>
          <div className="mt-4 ml-50 pl-25 font-bold">
-        <Link href="/mySaving" className=" hover:text-blue-500">My Savings</Link>
-        <Link href="/myBudget" className="pl-25 hover:text-blue-500">My Budget</Link>
+        <Link href="/" className=" hover:text-blue-500">Home</Link>
+        <Link href="/mySaving" className="pl-25 hover:text-blue-500">My Savings</Link>
         <Link href="/savingGoal" className="pl-25 hover:text-blue-500">Saving Goal</Link>
         <Link href="/transictions" className="pl-25 hover:text-blue-500 mr-60">Transictions</Link>
 
@@ -57,6 +59,7 @@ export default function RootLayout({
         </div>
          
         {children}
+         <Footer></Footer>
         </ThemeProvider>
     
       </body>
