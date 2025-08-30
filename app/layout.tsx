@@ -57,8 +57,9 @@ export default function RootLayout({
         </div>
           <Button className="absolute right-0 mr-10 mt-4 hover:bg-blue-500">Profile</Button>
         </div>
-         
+         <hr />
         {children}
+        
          <Footer></Footer>
         </ThemeProvider>
     

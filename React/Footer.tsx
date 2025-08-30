@@ -6,12 +6,13 @@ import Link from "next/link"
 
 export default function Footer() {
   return (
-    <footer className="mt-40">
+    <footer className="mt-40  bg-blue-200 dark:bg-neutral-900">
+        <hr />
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        
+      
         <div>
           <h2 className="text-white text-xl font-semibold">About Me</h2>
-          <p className="text-gray-400 mb-4">
+          <p className="text-gray-600 mb-4">
             I'm Lav kushwaha, A Full stack web developer and also an Expert of DevOps and Cloud in AWS & GCP
           </p>
           <div className="flex space-x-4">
@@ -44,7 +45,7 @@ export default function Footer() {
         {/* Contact */}
         <div>
           <h3 className="text-white text-lg font-semibold">Contact Us</h3>
-          <ul className="space-y-3 text-gray-400">
+          <ul className="space-y-3 text-gray-600">
             <li className="flex items-start space-x-2">
               <MapPin size={18} className="mt-1" />
               <span>Prayagraj, Uttar Pradesh</span>
@@ -60,6 +61,8 @@ export default function Footer() {
           </ul>
         </div>
       </div>
+
+      
 
     
       <div className="border-t border-gray-700">
