@@ -23,6 +23,12 @@ model User {
   expanses Expenses[]
   income Income[]
   monthly MonthlySummary[]
+  food food[]
+  education education[]
+  emi EMI[]
+  rent Rent[]
+  others Others[]
+
 }
 
 model Expenses{
@@ -54,4 +60,53 @@ model MonthlySummary {
    @@unique([userId, month, year], name: "userId_month_year")
 }
 
+model food {
+  id Int  @id @default(autoincrement())
+  amount Int
+  month     Int
+  year   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int   
+   @@unique([userId, month, year], name: "userId_month_year")
+}
+
+model education {
+  id Int  @id @default(autoincrement())
+  amount Int
+  month     Int
+  year   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  @@unique([userId, month, year], name: "userId_month_year")
+}
+
+model EMI {
+  id Int  @id @default(autoincrement())
+  amount Int
+  month     Int
+  year   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  @@unique([userId, month, year], name: "userId_month_year")
+}
+
+model Rent {
+  id Int  @id @default(autoincrement())
+  amount Int
+  month     Int
+  year   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  @@unique([userId, month, year], name: "userId_month_year")
+}
+
+model Others {
+  id Int  @id @default(autoincrement())
+  amount Int
+  month     Int
+  year   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  @@unique([userId, month, year], name: "userId_month_year")
+}
 

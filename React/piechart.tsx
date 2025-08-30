@@ -4,6 +4,10 @@ import * as React from "react"
 import { Label, Pie, PieChart, Sector } from "recharts"
 import { PieSectorDataItem } from "recharts/types/polar/Pie"
 
+import {PrismaClient } from '@prisma/client';
+
+const client = new PrismaClient();
+
 import {
   Card,
   CardContent,
@@ -28,12 +32,13 @@ import {
 
 export const description = "An interactive pie chart"
 
-const desktopData = [
-  { month: "january", desktop: 186, fill: "var(--color-january)" },
-  { month: "february", desktop: 305, fill: "var(--color-february)" },
-  { month: "march", desktop: 237, fill: "var(--color-march)" },
-  { month: "april", desktop: 173, fill: "var(--color-april)" },
-  { month: "may", desktop: 209, fill: "var(--color-may)" },
+
+const expenseData = [
+  { expenses: "Food", desktop: 1816, fill: "var(--color-Food)" },
+  { expenses: "Education", desktop: 305, fill: "var(--color-Education)" },
+  { expenses: "EMI", desktop: 237, fill: "var(--color-EMI)" },
+  { expenses: "Rent", desktop: 173, fill: "var(--color-Rent)" },
+  { expenses: "Others", desktop: 209, fill: "var(--color-Others)" },
 ]
 
 const chartConfig = {
@@ -46,37 +51,37 @@ const chartConfig = {
   mobile: {
     label: "Mobile",
   },
-  january: {
-    label: "January",
+  Food: {
+    label: "Food",
     color: "var(--chart-1)",
   },
-  february: {
-    label: "February",
+  Education: {
+    label: "Education",
     color: "var(--chart-2)",
   },
-  march: {
-    label: "March",
+  EMI: {
+    label: "EMI",
     color: "var(--chart-3)",
   },
-  april: {
-    label: "April",
+  Rent: {
+    label: "Rent",
     color: "var(--chart-4)",
   },
-  may: {
-    label: "May",
+  Others: {
+    label: "Others",
     color: "var(--chart-5)",
   },
 } satisfies ChartConfig
 
 export function ChartPieInteractive() {
   const id = "pie-interactive"
-  const [activeMonth, setActiveMonth] = React.useState(desktopData[0].month)
+  const [activeexpenses, setActiveexpenses] = React.useState(expenseData[0].expenses)
 
   const activeIndex = React.useMemo(
-    () => desktopData.findIndex((item) => item.month === activeMonth),
-    [activeMonth]
+    () => expenseData.findIndex((item) => item.expenses === activeexpenses),
+    [activeexpenses]
   )
-  const months = React.useMemo(() => desktopData.map((item) => item.month), [])
+  const expenses = React.useMemo(() => expenseData.map((item) => item.expenses), [])
 
   return (
     <Card data-chart={id} className="flex flex-col bg-blue-200 dark:bg-neutral-900">
@@ -84,17 +89,17 @@ export function ChartPieInteractive() {
       <CardHeader className="flex-row items-start space-y-0 pb-0">
         <div className="grid gap-1">
           <CardTitle>Your Expanses</CardTitle>
-          <CardDescription>In this Month</CardDescription>
+          <CardDescription>In this expenses</CardDescription>
         </div>
-        <Select value={activeMonth} onValueChange={setActiveMonth}>
+        <Select value={activeexpenses} onValueChange={setActiveexpenses}>
           <SelectTrigger
             className="ml-auto h-7 w-[130px] rounded-lg pl-2.5"
             aria-label="Select a value"
           >
-            <SelectValue placeholder="Select month" />
+            <SelectValue placeholder="Select expenses" />
           </SelectTrigger>
           <SelectContent align="end" className="rounded-xl">
-            {months.map((key) => {
+            {expenses.map((key) => {
               const config = chartConfig[key as keyof typeof chartConfig]
 
               if (!config) {
@@ -134,9 +139,9 @@ export function ChartPieInteractive() {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={desktopData}
+              data={expenseData}
               dataKey="desktop"
-              nameKey="month"
+              nameKey="expenses"
               innerRadius={60}
               strokeWidth={5}
               activeIndex={activeIndex}
@@ -167,16 +172,16 @@ export function ChartPieInteractive() {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-foreground text-2xl font-bold"
                         >
-                          {desktopData[activeIndex].desktop.toLocaleString()}
+                          {expenseData[activeIndex].desktop.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Rupees
                         </tspan>
                       </text>
                     )

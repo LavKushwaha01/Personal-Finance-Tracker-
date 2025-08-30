@@ -28,7 +28,15 @@ import {
 
 export const description = "An interactive area chart"
 
-const chartData = [
+type Data = 
+  {
+  date: string,
+  desktop: number,
+  mobile: number
+}[]
+
+
+const chartData : Data = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },
   { date: "2024-04-02", desktop: 97, mobile: 180 },
   { date: "2024-04-03", desktop: 167, mobile: 120 },
@@ -92,7 +100,8 @@ const chartData = [
   { date: "2024-05-31", desktop: 178, mobile: 230 },
   { date: "2024-06-01", desktop: 178, mobile: 200 },
   { date: "2024-06-02", desktop: 470, mobile: 410 },
-  { date: "2024-06-03", desktop: 103, mobile: 160 },
+  // { date: "2024-06-03", desktop: 103, mobile: 160 },
+  
   { date: "2024-06-04", desktop: 439, mobile: 380 },
   { date: "2024-06-05", desktop: 88, mobile: 140 },
   { date: "2024-06-06", desktop: 294, mobile: 250 },
@@ -121,6 +130,10 @@ const chartData = [
   { date: "2024-06-29", desktop: 103, mobile: 160 },
   { date: "2024-06-30", desktop: 446, mobile: 400 },
 ]
+chartData.push({date:"2024-06-03", desktop: 10, mobile: 10 })
+
+chartData.pop()
+
 
 const chartConfig = {
   visitors: {
