@@ -5,9 +5,7 @@ import { PrismaClient } from "@prisma/client";
 const client = new PrismaClient();
 
 import { handler } from "@/app/api/auth/[...nextauth]/route";
-import { NextResponse } from "next/server";
 
-;
 import { ChartLineLabel } from "@/React/barchart"
 
 
