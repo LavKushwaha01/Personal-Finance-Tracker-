@@ -19,6 +19,7 @@ endOfMonth.setHours(23, 59, 59, 999);
 
 type ExpenseType = "food" | "education" | "emi" | "rent" | "other";
 
+
 export async function POST(req: Request) {
   const session: Session | null = await getServerSession(handler);
 
@@ -34,7 +35,7 @@ export async function POST(req: Request) {
   const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
-  const user = await client.user.findUnique({
+const  user = await client.user.findUnique({
     where: {
       email: session.user!.email!,
     },
@@ -118,7 +119,7 @@ export async function POST(req: Request) {
         },
       });
 
-      return { summary, Expanse, cotegry };
+      return { summary, Expanse, cotegry, user };
     },
     { timeout: 15000 }
   );

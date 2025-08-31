@@ -9,8 +9,6 @@ import  ChartOnScroll  from "@/React/lazyscrolling"
 
 import * as React from "react"
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Expanse from "@/components/expanses";
 import Income from "@/components/income";
 

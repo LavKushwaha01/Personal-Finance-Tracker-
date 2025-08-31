@@ -4,9 +4,9 @@ import * as React from "react"
 import { Label, Pie, PieChart, Sector } from "recharts"
 import { PieSectorDataItem } from "recharts/types/polar/Pie"
 
-import {PrismaClient } from '@prisma/client';
+import { useState, useEffect, useMemo } from "react"
+import axios from "axios";
 
-const client = new PrismaClient();
 
 import {
   Card,
@@ -30,59 +30,68 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+
 export const description = "An interactive pie chart"
 
-
-const expenseData = [
-  { expenses: "Food", desktop: 1816, fill: "var(--color-Food)" },
-  { expenses: "Education", desktop: 305, fill: "var(--color-Education)" },
-  { expenses: "EMI", desktop: 237, fill: "var(--color-EMI)" },
-  { expenses: "Rent", desktop: 173, fill: "var(--color-Rent)" },
-  { expenses: "Others", desktop: 209, fill: "var(--color-Others)" },
-]
-
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  desktop: {
-    label: "Desktop",
-  },
-  mobile: {
-    label: "Mobile",
-  },
-  Food: {
-    label: "Food",
-    color: "var(--chart-1)",
-  },
-  Education: {
-    label: "Education",
-    color: "var(--chart-2)",
-  },
-  EMI: {
-    label: "EMI",
-    color: "var(--chart-3)",
-  },
-  Rent: {
-    label: "Rent",
-    color: "var(--chart-4)",
-  },
-  Others: {
-    label: "Others",
-    color: "var(--chart-5)",
-  },
-} satisfies ChartConfig
+  Food: { label: "Food", color: "var(--chart-1)" },
+  Education: { label: "Education", color: "var(--chart-2)" },
+  EMI: { label: "EMI", color: "var(--chart-3)" },
+  Rent: { label: "Rent", color: "var(--chart-4)" },
+  Others: { label: "Others", color: "var(--chart-5)" },
+}
+interface ExpenseData {
+ expenses: string
+  value: number
+  fill: string
+}
+
 
 export function ChartPieInteractive() {
   const id = "pie-interactive"
-  const [activeexpenses, setActiveexpenses] = React.useState(expenseData[0].expenses)
+  const [expenseData, setExpenseData] = useState<ExpenseData[]>([])
+  const [activeCategory, setActiveCatogery] = useState<string>("Food")
 
-  const activeIndex = React.useMemo(
-    () => expenseData.findIndex((item) => item.expenses === activeexpenses),
-    [activeexpenses]
+    useEffect(() => {
+
+    const fetchData = async () => {
+
+      const resuser = await axios.get("/api/user")
+     const user = await resuser.data
+      
+      const now = new Date()
+      const month = now.getMonth() + 1
+      const year = now.getFullYear()
+
+      const res = await axios.get(
+        `/api/categorydata?userId=${user.id}&month=${month}&year=${year}`
+      )
+      const data = res.data
+
+       setExpenseData([
+        { expenses: "Food", value: data.food, fill: "var(--color-Food)" },
+        { expenses: "Education", value: data.education, fill: "var(--color-Education)" },
+        { expenses: "EMI", value: data.emi, fill: "var(--color-EMI)" },
+        { expenses: "Rent", value: data.rent, fill: "var(--color-Rent)" },
+        { expenses: "Others", value: data.others, fill: "var(--color-Others)" },
+      ])
+      setActiveCatogery("Food")
+}
+ fetchData()
+//  const intervalId: NodeJS.Timeout = setInterval(fetchData, 5000) 
+
+    // return () => clearInterval(intervalId) 
+  }, [])
+
+   const activeIndex = useMemo(
+    () => expenseData.findIndex((item) => item.expenses === activeCategory),
+    [activeCategory, expenseData]
   )
-  const expenses = React.useMemo(() => expenseData.map((item) => item.expenses), [])
 
+  const expenses = useMemo(
+    () => expenseData.map((item) => item.expenses),
+    [expenseData]
+  )
   return (
     <Card data-chart={id} className="flex flex-col bg-blue-200 dark:bg-neutral-900">
       <ChartStyle id={id} config={chartConfig} />
@@ -91,7 +100,7 @@ export function ChartPieInteractive() {
           <CardTitle>Your Expanses</CardTitle>
           <CardDescription>In this expenses</CardDescription>
         </div>
-        <Select value={activeexpenses} onValueChange={setActiveexpenses}>
+        <Select value={activeCategory} onValueChange={setActiveCatogery}>
           <SelectTrigger
             className="ml-auto h-7 w-[130px] rounded-lg pl-2.5"
             aria-label="Select a value"
@@ -140,7 +149,7 @@ export function ChartPieInteractive() {
             />
             <Pie
               data={expenseData}
-              dataKey="desktop"
+              dataKey="value"
               nameKey="expenses"
               innerRadius={60}
               strokeWidth={5}
@@ -174,7 +183,7 @@ export function ChartPieInteractive() {
                           y={viewBox.cy}
                           className="fill-foreground text-2xl font-bold"
                         >
-                          {expenseData[activeIndex].desktop.toLocaleString()}
+                          {expenseData[activeIndex]?.value.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

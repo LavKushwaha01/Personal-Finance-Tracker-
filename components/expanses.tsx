@@ -46,7 +46,9 @@ async function handleExpense() {
     amount,
     type
    })
-     console.log("Saved expense:", res.data);
+    if(res){
+      window.location.reload()
+    }
     }
    catch (err: unknown) {
   if (axios.isAxiosError(err)) {
