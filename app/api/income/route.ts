@@ -63,6 +63,23 @@ export async function POST(req: Request) {
         },
       });
 
+      const dailyincome = await tx.dailystats.upsert({
+        where: {
+          userId_date: {
+            userId: user.id,
+            date: now
+          }
+        },
+        update: {
+         income: {increment: amount}
+        },
+        create: {
+               userId: user.id,
+               expense: 0,
+               income: amount,
+        }
+      });
+
       return { summary, newIncome };
     },
     { timeout: 15000 }

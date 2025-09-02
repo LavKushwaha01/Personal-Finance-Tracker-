@@ -119,6 +119,25 @@ const  user = await client.user.findUnique({
         },
       });
 
+      const dailyexpenses = await tx.dailystats.upsert({
+        where:{
+          userId_date: {
+           userId: user.id,
+           date: now
+          },
+        },
+         update: {
+          expense: { increment: amount },
+        },
+        create :{
+          userId: user.id,
+          expense: amount,
+          income: 0,
+
+        }
+      });
+
+
       return { summary, Expanse, cotegry, user };
     },
     { timeout: 15000 }

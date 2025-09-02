@@ -28,6 +28,7 @@ model User {
   emi EMI[]
   rent Rent[]
   others Others[]
+  dailystats dailystats[]
 
 }
 
@@ -110,3 +111,12 @@ model Others {
   @@unique([userId, month, year], name: "userId_month_year")
 }
 
+model dailystats {
+  id Int @id @default(autoincrement())
+  userId Int
+  user      User     @relation(fields: [userId], references: [id])
+  income Int
+  expense Int
+  date DateTime @default(now()) @db.Date
+  @@unique([userId, date], name: "userId_date")
+}

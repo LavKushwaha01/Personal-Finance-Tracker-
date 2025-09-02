@@ -98,7 +98,7 @@ export function ChartPieInteractive() {
       <CardHeader className="flex-row items-start space-y-0 pb-0">
         <div className="grid gap-1">
           <CardTitle>Your Expanses</CardTitle>
-          <CardDescription>In this expenses</CardDescription>
+          <CardDescription>In this Month for different category</CardDescription>
         </div>
         <Select value={activeCategory} onValueChange={setActiveCatogery}>
           <SelectTrigger
