@@ -39,8 +39,9 @@ This project is built using **Next.js (React), TypeScript, and Tailwind CSS** â€
 git clone https://github.com/LavKushwaha01/Personal-Finance-Tracker-.git
 cd Personal-Finance-Tracker-
 ```
-```bash
+
 2. Install Dependencies
+```bash
 This project is configured with Bun but also works with npm/yarn:
 Using Bun (recommended)
 bun install
@@ -48,16 +49,18 @@ Using npm
 npm install
 ```
 
-```bash
+
 3. Environment Setup
+```bash
 Before running locally, create a .env file using the example (if provided):
 
 cp .env.example .env
 Configure the database connection (if using Prisma & a database) â€” e.g., SQLite, PostgreSQL, etc.
 ```
 
-```bash
+
 4. Run the Development Server
+```bash
 npm run dev
 # or
 bun run dev
