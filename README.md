@@ -39,8 +39,8 @@ cd Personal-Finance-Tracker-
 
 ### 2. Install Dependencies
 ```bash
-This project is configured with Bun but also works with npm/yarn:
-Using Bun (recommended)
+# This project is configured with Bun but also works with npm/yarn:
+# Using Bun (recommended)
 bun install
 Using npm
 npm install
@@ -49,7 +49,7 @@ npm install
 
 ### 3. Environment Setup
 ```bash
-Before running locally, create a .env file using the example (if provided):
+# Before running locally, create a .env file using the example (if provided):
 
 cp .env.example .env
 Configure the database connection (if using Prisma & a database) — e.g., SQLite, PostgreSQL, etc.
@@ -61,7 +61,7 @@ Configure the database connection (if using Prisma & a database) — e.g., SQLit
 npm run dev
 # or
 bun run dev
-Your app will be available at:
+# Your app will be available at:
 
 http://localhost:3000
 ```
