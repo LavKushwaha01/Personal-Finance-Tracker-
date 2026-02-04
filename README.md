@@ -82,7 +82,7 @@ http://localhost:3000
 ---
 
 ## UI Workflow
-_ The dashboard fetches a list of transactions
+- The dashboard fetches a list of transactions
 
 - It categorizes them into income vs expenses
 
